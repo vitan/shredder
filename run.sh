@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-python manage.py $* --settings=shredder.local_settings
+python shredder/manage.py $* --settings=local_settings
