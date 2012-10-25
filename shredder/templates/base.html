@@ -1,0 +1,29 @@
+<!DOCTYPE html">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}{% endblock %}</title>
+        {% block extrastyle %}{% endblock %}
+        {% block extrahead %}{% endblock %}
+    </head>
+    <body>
+    <!-- Whole -->
+        {% block header %}
+            <a href="#" title="Go to homepage" class="logo" style="font-style:italic;font-size:70;font-color:red">Shredder</a>
+        {% endblock %}
+        <hr>
+        {% include "menu.html" %}
+        <hr>
+        <div>
+            {% block pretitle %}{% endblock %}
+            {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
+            {% block content %}
+                {% block object-tools %}{% endblock %}
+            {% endblock %}
+            {% block sidebar %}{% endblock %}
+            <br class="clear" />
+        </div>
+        {% block footer %}
+        {% endblock %}
+    </body>
+</html>
