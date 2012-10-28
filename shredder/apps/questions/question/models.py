@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-# Added by Chaobin Tang <chaobin.py@gmail.com>
-# Changed by Weitao Zhou <zhouwtlord@gmail.com>
+# Added by Chaobin Tang <chaobin.py@gmail.com>, Weitao Zhou <zhouwtlord@gmail.com>
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -45,7 +44,7 @@ class Question(Base):
     date_created = models.DateTimeField(auto_now=True, auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True, auto_now_add=True)
     is_active = models.BooleanField(default=False)
-    #FIXME weitao
+    # TODO (weitao zhou) the creators must be the login user? 
     creator = models.ForeignKey(User)
     is_reviewed = models.BooleanField(default=False)
 
@@ -55,40 +54,6 @@ class Question(Base):
         return u'Question - %s' % truncate_words(self.question, 5)
     __unicode__ = __str__
 
-#    def get_answer_type(self):
-#        try:
-#            answer = self.answer
-#        except (AttributeError, models.ObjectDoesNotExist):
-#            answer = None
-#        if answer:
-#            return answer.get_answer_type()
-#        else:
-#            return u'Answer undefined.'
-
     def get_difficulty(self):
         return self.DIFFICULTIES.get(self.difficulty, 'unset')
 
-''''
-class Answer(Base):
-
-    ANSWER_TYPE = (
-        (1, 'open answer'),
-        (2, 'one choice out of many'),
-        (3, 'multi choice'),
-        (4, 'true or false')
-    )
-    question = models.OneToOneField(Question)
-    answer_type = models.IntegerField(choices=ANSWER_TYPE)
-    text_answer = models.TextField(max_length=1000, blank=True, null=True)
-    boolean_answer = models.BooleanField(default=True)
-
-    def get_correct_answer(self):
-        return
-
-    def __str__(self):
-        return u'Answer to Question[%s]' % unicode(self.question)
-    __unicode__ = __str__
-
-    def get_answer_type(self):
-        return dict(self.ANSWER_TYPE).get(self.answer_type, u'Undefined type')
-'''
