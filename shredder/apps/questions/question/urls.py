@@ -1,9 +1,8 @@
-from django.conf.urls.defaults import patterns, include, url
+from django.conf.urls.defaults import patterns, url
+from django.views.generic.simple import redirect_to
 
-from apps.questions.question.views import *
 
 urlpatterns = patterns('apps.questions.question.views',
-    # url(r'^$', 'shredder.views.home', name='home'),
-    # url(r'^shredder/', include('shredder.foo.urls')),
-     url(r'^share-my-question/', share_question, name="share_question"),
+    url(r'^$', redirect_to, {'url': 'share-my-question'}),
+    url(r'^share-my-question/$', 'share_question', name="share_question"),
 )

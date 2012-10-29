@@ -17,7 +17,7 @@ __all__ = [
 
 class Tag(Base):
 
-    name = models.CharField(max_length=32, db_index=True)
+    name = models.CharField(max_length=32, db_index=True, unique=True)
 
     def __str__(self):
         return u'Tag - %s' % self.name
@@ -40,7 +40,7 @@ class Question(Base):
         choices=QUESTION_DIFFICULTY,
         default=3
     )
-    estimated_time = models.IntegerField(u'Number of seconds needed to give the answer', default=60)
+    estimated_time = models.IntegerField(u'Number of minutes needed to give the answer', default=60)
     date_created = models.DateTimeField(auto_now=True, auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True, auto_now_add=True)
     is_active = models.BooleanField(default=False)
@@ -55,5 +55,5 @@ class Question(Base):
     __unicode__ = __str__
 
     def get_difficulty(self):
-        return self.DIFFICULTIES.get(self.difficulty, 'unset')
+        return self.DIFFICULTIES.get(self.difficulty, u'unset')
 
