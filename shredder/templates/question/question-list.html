@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load show_paginator %}
+
+{% block title %}Question List{% endblock %}
+
+{% block content %}
+<div id="reports" class="content">
+    {% for report in reports.object_list %}
+    <div>
+        <p align="left">
+            <strong>Submitter: </strong> {{ report.creator }} <strong>Estimated time: </strong> {{ report.estimated_time }}
+            <br>
+            <strong>Updated time: </strong> {{ report.date_updated }} <strong>Status: </strong> {{ report.get_status }}
+            <br>
+            <strong>Difficulty: </strong> {{ report.get_difficulty }}
+            <strong>Tag: </strong>
+            {% for tag in report.tags.all %}
+                {% if not forloop.last %}
+                    {{ tag.name }},
+                {% else %}
+                    {{ tag.name }}
+                {% endif %}
+            {% endfor %}
+        </p>
+        <p>
+            <strong>Description: </strong> {{ report.description }}
+        </p>
+    </div>
+    <hr/>
+    {% empty %}
+    <p>No reports found.</p>
+    {% endfor %}
+
+    {% show_paginator reports %}
+
+</div>
+{% endblock %}
+

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Share My Question{% endblock %}
+
+{% block content %}
+<div class="content">
+    <form  name="share_question_form" method="POST" action="">
+        {% csrf_token %}
+        <div>
+            <ul>
+                <li>
+                    <label>{{ form.description.label }}</label>
+                    <br>
+                    {{ form.description.errors }}
+                    {{ form.description }}
+                </li>
+                <li>
+                    <label>{{ form.tag_list.label }}</label>
+                    {{ form.tag_list.errors }}
+                    {{ form.tag_list }}
+                </li>
+                <li>
+                    <label>{{ form.difficulty.label }}</label>
+                    {{ form.difficulty.errors }}
+                    {{ form.difficulty }}
+                </li>
+                <li>
+                    <label>{{ form.estimated_time.label }}</label>
+                    {{ form.estimated_time.errors }}
+                    {{ form.estimated_time }}
+                </li>
+            </ul>
+            <input id="id_share" type="submit" value="Share My Question"/>
+        </div>
+    </form>
+</div>
+{% endblock %}

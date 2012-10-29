@@ -1,0 +1,43 @@
+<div class="pagination">
+    <table>
+        <tbody>
+        <tr>
+            {% if pages.has_previous %}
+            <td>
+                <a href="{{ path }}path={{.previous_page_number }}">Previous</a>
+            </td>
+            {% else %}
+            <td>
+                <a href="#"></a>
+            </td>
+            {% endif %}
+            {% for page_num in page_numbers %}
+            {% if page_num %}
+                {% ifequal current_page page_num %}
+                <td>
+                    <a href="#">{{ page_num }}</a>
+                </td>
+                {% else %}
+                <td>
+                    <a href="{{ path }}page={{ page_num }}">{{ page_num }}</a>
+                </td>
+                {% endifequal %}
+            {% else %}
+                <td>
+                    <a href="#"></a>
+                </td>
+            {% endif %}
+            {% endfor %}
+            {% if pages.has_next %}
+                <td>
+                    <a href="{{ path }}page={{ pages.next_page_number }}">Next</a>
+                </td>
+            {% else %}
+            <td>
+                <a href="#"></a>
+            </td>
+            {% endif %}
+        </tr>
+        </tbody>
+    </table>
+</div>

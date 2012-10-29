@@ -63,12 +63,9 @@ class Question(Base):
         return u'Question - %s' % truncate_words(self.question, 5)
     __unicode__ = __str__
 
-<<<<<<< HEAD
-=======
     def get_status(self):
         return self.STATUS.get(self.status, u'unset')
 
->>>>>>> 41d9693... REV: Changed fields is_active&is_reviewed to be status
     def get_difficulty(self):
         return self.DIFFICULTIES.get(self.difficulty, u'unset')
 
