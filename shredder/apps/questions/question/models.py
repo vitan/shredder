@@ -60,5 +60,12 @@ class Question(Base):
     tags = models.ManyToManyField(Tag, null=True, blank=True)
 
     def __str__(self):
-        return u'Question - %s' % truncate_words(self.question, 5)
+        return u'Question - %s' % truncate_words(self.description, 5)
     __unicode__ = __str__
+
+    def _get_textual_tags(self):
+        text = []
+        for tag in self.tags.all():
+            text.append(tag.name)
+        return u','.join(text)
+    textual_tags = property(_get_textual_tags)

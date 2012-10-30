@@ -1,6 +1,6 @@
 /* CSS Document */
 
-
+@charset "UTF-8";
 /*Margin*/
 .whole{ margin: 0px auto; width: 1210px; min-width: 1210px;}
 .auto-0{ margin: 0 auto!important;}
@@ -23,7 +23,7 @@
 .alphabet span{ font-size: 9px; color:#0C0; margin-left: 2px;}
 .alphabet a{ font-size: 12px; text-decoration: none; color:#000; font-weight: bold;}
 .alphabet a:hover { text-decoration: none;}
-.alphabet li:hover{ cursor: pointer;background: #ccc;}
+.alphabet li:hover { cursor: pointer;background: #ccc;}
 .alphabet li:hover a{ color: #fb6c1b;}
 
 .tool-bar{ height: 38px; background:#e7f1fd; vertical-align: middle;}
@@ -39,7 +39,7 @@ li.last2 { border-right: 1px solid #ccc; margin-right: -4px;}
 li.border-radius{ -moz-border-right-radius:4px;border-bottom-right-radius:4px;border-top-right-radius:4px;}
 li.last3 { border: none; margin:5px; float:right; background: none; width: 250px;}
 li select { width: 100px; margin-right: 5px;}
-li.last2:hover,li.first:hover{ background: -moz-linear-gradient(center top , #eee, #efefef 50%, #cfcfcf);background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#eee), to(#cfcfcf), color-stop(0.99,#efefef)); }
+li.last2:hover,li.first:hover { background: -moz-linear-gradient(center top , #eee, #efefef 50%, #cfcfcf);background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#eee), to(#cfcfcf), color-stop(0.99,#efefef)); }
 
 /*Table*/
 .table td, .table th{ vertical-align: middle;color: #000;}
@@ -49,7 +49,7 @@ li.last2:hover,li.first:hover{ background: -moz-linear-gradient(center top , #ee
 .change-tr{ background-color: #fbf7e3;}
 tr.last{ border-bottom: 1px solid #ddd}
 .table1 td.pass{ width:50px; background: url(../images/pass-icon.png) 15px 3px  no-repeat;}
-.table a:hover{ text-decoration: none;}
+.table a:hover { text-decoration: none;}
 .table .last{ border-bottom: 1px solid #ddd; }
 
 .table2 {width: 100%; }
@@ -68,13 +68,11 @@ tr.last{ border-bottom: 1px solid #ddd}
 
 .tool-panel{float: left; border: 1px #aaa solid; background: #ddd; display: none; position: absolute;}
 .tool-panel li{ list-style: none; padding: 5px; float: left;}
-.tool-panel li:hover{ background:#aaa;}
+.tool-panel li:hover { background:#aaa;}
 
 
-ul, ol {    margin: 0;}
+ul, ol{ margin: 0;}
 label, input, textarea{ width:auto}
-
-.review-package{ cursor:pointer}
 
 ul.errorlist{ color:red;list-style-type:none}
 ul.errorlist li{ list-style-type:none; color:red}
@@ -86,5 +84,16 @@ button{ background:none}
 .last2 button{ margin: 4px 0 0 0}
 
 ul.help li{ list-style: none; color: #333; margin: 5px 0;}
-@charset "UTF-8";
 
+/*customize css from Weitao Zhou <zhouwtlord@gmail.com>*/
+label{
+	font-weight: bold;
+}
+div.tag-cloud {color:red;}
+div.tag-cloud:hover {background:yellow;}
+input[readonly="readonly"]{
+	background-color: lightgray;
+}
+.hidden {
+	display: none;
+}

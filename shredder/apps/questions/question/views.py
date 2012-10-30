@@ -9,7 +9,7 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 
-from apps.questions.question.forms import ShareQuestionForm
+from apps.questions.question.forms import ShareQuestionForm, QuestionReviewForm
 from apps.questions.question.models import Question, Tag
 import apps.questions.settings as question_settings
 
@@ -48,6 +48,7 @@ def share_question(request, template_name='question/share-question.html'):
 def question_list(request, template_name='question/question-list.html'):
     """List the submitted questions."""
 
+    tag_cloud = Tag.objects.all()
     questions = Question.objects.all()
     if request.method == 'POST':
         pass
@@ -62,7 +63,19 @@ def question_list(request, template_name='question/question-list.html'):
         reports = paginator.page(page)
     except (EmptyPage, InvalidPage):
         reports = paginator.page(paginator.num_pages)
+
+    pk_forms = dict()
+    for report in reports.object_list:
+        init = report.__dict__
+        init['creator'] = report.creator
+        init['tag_list'] = report.textual_tags
+        form = QuestionReviewForm(initial=init)
+        # TODO (weizhou) replace the pk with report's MD5 for security
+        pk_forms[report.pk] = form
+
     return render_to_response(template_name, {
         'title': u"Question List",
         'reports': reports,
+        'pk_forms': pk_forms,
+        'tag_cloud': tag_cloud,
         },context_instance=RequestContext(request))

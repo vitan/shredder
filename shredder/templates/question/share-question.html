@@ -24,9 +24,11 @@
                     {{ form.tag_list }}
                 </li>
                 {% for tag in tag_cloud %}
-                <div class="tag_cloud" id="id_{{ tag.name }}">
+                <div class="tag-cloud" id="id_{{ tag.name }}">
                 {{ tag.name }}
                 </div>
+                {% empty %}
+                <p>No tags display.</p>
                 {% endfor %}
                 <li>
                     <label>{{ form.difficulty.label }}</label>
