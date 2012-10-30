@@ -11,7 +11,7 @@ from django.core.exceptions import PermissionDenied
 
 from apps.questions.question.forms import ShareQuestionForm
 from apps.questions.question.models import Question, Tag
-import settings as question_settings
+import apps.questions.settings as question_settings
 
 
 @login_required

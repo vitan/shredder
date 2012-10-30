@@ -2,7 +2,7 @@
 # Added by Chaobin Tang <chaobin.py@gmail.com>
 
 '''
-Question App Settings
+Questions App Settings
 '''
 
 

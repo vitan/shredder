@@ -5,7 +5,7 @@ from django import forms
 from django.conf import settings
 
 from apps.questions.question.models import Question, Tag
-import settings as question_settings
+import apps.questions.settings as question_settings
 
 class ShareQuestionForm(forms.Form):
 

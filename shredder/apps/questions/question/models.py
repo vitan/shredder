@@ -7,7 +7,7 @@ from django.conf import settings
 from django.utils.text import truncate_words
 
 from apps.common.models import Base
-import settings as question_settings
+import apps.questions.settings as question_settings
 
 
 __all__ = [
