@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Generate Questionnaire{% endblock %}
+
+{% block content %}
+<div class="content">
+    <form class="generate-questionnaire-form"  name="generate_questionnaire_form" method="POST" action="{% url generate_questionnaire %}">
+        {% csrf_token %}
+        <div class="form-post-part">
+            <div>
+            <label>{{ form.position.label }}</label>
+            {{ form.position.errors }}
+            <span id="id_{{ form.position.name }}" class="generate-set-field">{{ form.position }}</span>
+            </div>
+            <div>
+            <label>{{ form.tag_list.label }}</label>
+            {{ form.tag_list.errors }}
+            <span id="id_{{ form.tag_list.name }}" class="generate-set-field">{{ form.tag_list }}</span>
+            </div>
+            <div>
+            {% for tag in tag_cloud %}
+            <div class="tag-cloud" id="id_{{ tag.name }}">
+            {{ tag.name }}
+            </div>
+            {% empty %}
+            <p>No tags display.</p>
+            {% endfor %}
+            </div>
+            <!--TODO (weizhou) max&min value auto-refresh as tag selected-->
+            {% for field in form %}
+            {% ifequal field.name|slice:":5" "level" %}
+            <div>
+                <label>{{ field.label }}</label>
+                {{ field.errors }}
+                <span id="id_{{ field.name }}" class="generate-set-field">{{ field }}</span>
+            </div>
+            {% endifequal %}
+            {% endfor %}
+        </div>
+        <input class="js-questionnaire-form-generate" type="submit" value="Generate"/>
+    </form>
+    <form name="question_order_form" method="POST" action="">
+        {% csrf_token %}
+        <div class="generated-questionnaire">
+        </div>
+        <input class="js-questionnaire-form-save" type="submit" value="Save"/>
+    </form>
+</div>
+{% endblock %}

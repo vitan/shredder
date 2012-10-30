@@ -15,34 +15,64 @@ shredder.init = {
 		      shredder.ui.readonly('input#id_tag_list');
 		      shredder.ui.tagCloud();
 		      shredder.ui.displayFormToggle();
-		      shredder.form.submitToggle();
+		      shredder.form.reviewSubmitToggle();
+	      }
+	      if(shredder.ui.exists('form.generate-questionnaire-form')){
+		      shredder.ui.readonly('input#id_tag_list');
+		      shredder.ui.tagCloud();
+		      shredder.form.generateSubmitToggle();
 	      }
         },
 }
 
 shredder.form = {
-	submitToggle: function(){
+	reviewSubmitToggle: function(){
 		$('form.review-question-form').live('submit', function(){
-            var obj = $(this);
+		    var obj = $(this);
 		    var form_container = obj.parent().find(".form-post-part");
 		    var question_container = obj.parent().parent().find(".question");
 		    var url = obj.attr("action");
 		    var data = obj.serialize();
 		    shredder.ajax.post(url, data, function(response){
 			    if(shredder.ajax.isSuccessful(response.rc)){
-                    shredder.ui.fieldFill(-1, form_container);
-                    obj.parent().hide();
-                    obj.parent().parent('div').find('.question-display').show();
-                    return true;
+				    shredder.ui.fieldFill(-1, form_container);
+				    obj.parent().hide();
+				    obj.parent().parent('div').find('.question-display').show();
+				    return true;
 			    }
 			    else{
-                    //TODO (weizhou) form error display
+				    //TODO (weizhou) form error display
 				    alert(response);
 			    }
 		    });
 		    return false;
 	       });
         },
+	generateSubmitToggle: function(){
+		$('form.generate-questionnaire-form').live('submit', function(){
+		    var obj = $(this);
+		    var form_container = obj.parent().find(".form-post-part");
+		    var questionnaire_container = obj.parent().parent().find("div.generated-questionnaire");
+		    var url = obj.attr("action");
+		    var data = obj.serialize();
+		    shredder.ajax.post(url, data, function(response){
+			    if(shredder.ajax.isSuccessful(response.rc)){
+				    var html = [];
+				    $.each(response.data.items, function(index, value){
+					    var span = '<div><span order="'+index+'" id="id_'+value.pk+'">'+value.desc+'</span></div>'; 
+					    html.push(span);
+				    });
+				    questionnaire_container.html(html.join(''));
+				    return true;
+			    }
+			    else{
+				    //TODO (weizhou) form error display
+				    ;
+			    }
+		    });
+		    return false;
+	       });
+       },
 }
 
 shredder.ui = {

@@ -1,1 +1,77 @@
-# Create your views here.
+#!/usr/bin/env python
+#Add by Weitao Zhou <zhouwtlord@gmail.com>
+
+from django.http import HttpResponse, Http404
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import render_to_response, get_object_or_404
+from django.template import RequestContext
+
+from random import randint
+
+from apps.common.views import AjaxResponseMixin
+from apps.questions.questionnaire.models import Department, Position, Questionnaire
+from apps.questions.questionnaire.forms import GenerateQuestionnaireForm
+from apps.questions.question.models import Tag, Question
+
+
+__all__ = {
+    'generate_questionnaire',
+}
+
+
+@login_required
+def generate_questionnaire(request, template_name="questionnaire/generate-questionnaire.html"):
+    '''Generate questionnaire as manually settings. '''
+
+    response = AjaxResponseMixin()
+    tag_cloud = Tag.objects.all()
+
+    if request.method == 'POST':
+        form = GenerateQuestionnaireForm(request.POST)
+        if form.is_valid():
+            kwargs = form.get_cleaned_data()
+            questions = auto_generate(**kwargs)
+            items = [{
+                'pk': question.pk,
+                'desc': question.description,
+            }
+                for question in questions
+            ]
+            data = {'items': items}
+            return response.ajax_response(**data)
+        else:
+            pass
+
+    return render_to_response(template_name, {
+        'title': u"Generate Questionnaire",
+        'form': GenerateQuestionnaireForm(),
+        'tag_cloud': tag_cloud,
+        }, context_instance=RequestContext(request))
+
+def auto_generate(**kwargs):
+    '''Generate a question list based on the given tags and level.'''
+
+    question_objs = Question.objects.filter(status=3, tags__in=kwargs['tag_obj_set'])
+
+    result = []
+    for key, value in kwargs.iteritems():
+        if key[:6] == "level_":
+            diff_level_objs = question_objs.filter(difficulty=int(key[6:])).distinct()
+            max = diff_level_objs.count()
+            indexs = randint_n_generator(0, max, value)
+            result.extend([diff_level_objs[i] for i in indexs])
+    return result
+
+def randint_n_generator(min, max, n):
+    '''Return an int list containing 'n' random int numbers between min and max.'''
+    
+    result = set()
+    while(True):
+        num = randint(min, max)
+        result.add(num)
+        if len(result) == n:
+            return result
