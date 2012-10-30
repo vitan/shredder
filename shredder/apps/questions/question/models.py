@@ -35,18 +35,27 @@ class Question(Base):
     )
     DIFFICULTIES = dict(QUESTION_DIFFICULTY)
 
+    STATUS_NODE = (
+        (1, u'Submitted'),
+        (2, u'Reviewed'),
+        (3, u'Actived')
+    )
+    STATUS = dict(STATUS_NODE)
+
     description = models.CharField(max_length=question_settings.QUESTION_MAX_LENGTH)
     difficulty = models.IntegerField(
         choices=QUESTION_DIFFICULTY,
         default=3
     )
+    status = models.IntegerField(
+        choices=STATUS_NODE,
+        default=1
+    )
     estimated_time = models.IntegerField(u'Number of minutes needed to give the answer', default=60)
     date_created = models.DateTimeField(auto_now=True, auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True, auto_now_add=True)
-    is_active = models.BooleanField(default=False)
     # TODO (weitao zhou) the creators must be the login user? 
     creator = models.ForeignKey(User)
-    is_reviewed = models.BooleanField(default=False)
 
     tags = models.ManyToManyField(Tag, null=True, blank=True)
 
@@ -54,6 +63,12 @@ class Question(Base):
         return u'Question - %s' % truncate_words(self.question, 5)
     __unicode__ = __str__
 
+<<<<<<< HEAD
+=======
+    def get_status(self):
+        return self.STATUS.get(self.status, u'unset')
+
+>>>>>>> 41d9693... REV: Changed fields is_active&is_reviewed to be status
     def get_difficulty(self):
         return self.DIFFICULTIES.get(self.difficulty, u'unset')
 
