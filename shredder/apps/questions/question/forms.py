@@ -10,7 +10,7 @@ import apps.questions.settings as question_settings
 class ShareQuestionForm(forms.Form):
 
     description = forms.CharField(
-        label=u"Question Description",
+        label=u"Description",
         max_length=question_settings.QUESTION_MAX_LENGTH,
         widget=forms.Textarea,
     )
@@ -20,11 +20,11 @@ class ShareQuestionForm(forms.Form):
         required=False,
     )
     difficulty = forms.ChoiceField(
-        label=u"Difficulty Level",
+        label=u"Difficulty-Level",
         choices=Question.QUESTION_DIFFICULTY,
     )
     estimated_time = forms.IntegerField(
-        label=u"Estimated Time(By Minute)",
+        label=u"Estimated-Time(By Minute)",
     )
 
     def clean_tag_list(self):
@@ -56,3 +56,25 @@ class TagAdminForm(forms.ModelForm):
     def clean_name(self):
         name = self.cleaned_data["name"]
         return name.strip()
+
+
+class QuestionReviewForm(ShareQuestionForm):
+    '''Base class is ShareQuestionForm.'''
+
+    creator = forms.CharField(
+        label=u"Creator",
+    )
+    date_updated = forms.DateTimeField(
+        label=u"Last-Update",
+    )
+    status = forms.ChoiceField(
+        label=u'Status',
+        choices=Question.STATUS_NODE,
+    )
+
+    def get_cleaned_data(self):
+        dict = super(QuestionReviewForm, self).get_cleaned_data()
+        dict.update({
+            'status': self.cleaned_data['status'],
+        })
+        return dict

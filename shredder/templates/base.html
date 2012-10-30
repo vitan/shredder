@@ -3,10 +3,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>{% block title %}{% endblock %}</title>
+        <link type="text/css" rel="stylesheet" href='{{ STATIC_URL }}css/ui-lightness/jquery-ui-1.8.18.custom.css' >
+        <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}css/shredder.css"/>
+
         <script type="text/javascript" src="{{ STATIC_URL }}js/jquery/jquery-1.7.1.min.js"></script>
         <script type="text/javascript" src='{{ STATIC_URL }}js/jquery/jquery-ui-1.8.18.custom.min.js'></script>
-        <link rel='stylesheet' type='text/css' href='{{ STATIC_URL }}media/css/ui-lightness/jquery-ui-1.8.18.custom.css' >
-        <link href="{{ STATIC_URL }}media/css/shredder.css" rel="stylesheet" type="text/css" />
+
+        <script src="{{ STATIC_URL }}js/shredder-core.js"></script>
+        <script src="{{ STATIC_URL }}js/shredder-ajax.js"></script>
+
         {% block extrastyle %}{% endblock %}
         {% block extrahead %}{% endblock %}
     </head>

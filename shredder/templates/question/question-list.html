@@ -4,36 +4,103 @@
 
 {% block title %}Question List{% endblock %}
 
+{% block extrahead %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/shredder.question.js"></script>
+{% endblock %}
+
 {% block content %}
-<div id="reports" class="content">
-    {% for report in reports.object_list %}
-    <div>
-        <p align="left">
-            <strong>Submitter: </strong> {{ report.creator }} <strong>Estimated time: </strong> {{ report.estimated_time }}
-            <br>
-            <strong>Updated time: </strong> {{ report.date_updated }} <strong>Status: </strong> {{ report.get_status }}
-            <br>
-            <strong>Difficulty: </strong> {{ report.get_difficulty }}
-            <strong>Tag: </strong>
-            {% for tag in report.tags.all %}
-                {% if not forloop.last %}
-                    {{ tag.name }},
-                {% else %}
+<div class="content" id="id_question_list">
+    {% for pk, form in pk_forms.items %}
+    <div id="id_question_{{ pk }}">
+        <div class="question-display">
+            <div>
+            <label>{{ form.tag_list.label }}</label>
+            <span id="id_{{ form.tag_list.name }}"></span>
+            </div>
+            <div>
+            <label>{{ form.difficulty.label }}</label>
+            <span id="id_{{ form.difficulty.name }}" class="question-field"></span>
+            </div>
+            <div>
+            <label>{{ form.estimated_time.label }}</label>
+            <span id="id_{{ form.estimated_time.name }}" class="question-field"></span>
+            </div>
+            <div>
+            <label>{{ form.status.label }}</label>
+            <span id="id_{{ form.status.name}}" class="question-field"></span>
+            </div>
+            <div>
+            <label>{{ form.creator.label }}</label>
+            <span id="id_{{ form.creator.name }}" class="question-field"></span>
+            </div>
+            <div>
+            <label>{{ form.date_updated.label }}</label>
+            <span id="id_{{ form.date_updated.name }}" class="question-field"></span>
+            </div>
+            <div>
+            <label>{{ form.description.label }}</label>
+            <br><span id="id_{{ form.description.name }}" class="question-field"></span>
+            </div>
+            <input type='button' class="js-question-review-button" value="Review"/>
+        </div>
+        <div class="review-form hidden" id="id_question_form_{{ pk }}">
+            <form id="id_review_question_form_{{ pk }}" class="review-question-form" name="review_question_form" action="{% url question_review pk %}">
+                {% csrf_token %}
+                <div class="form-post-part">
+                    <div>
+                    <label>{{ form.tag_list.label }}</label>
+                    {{ form.tag_list.error }}
+                    <span id="id_{{ form.tag_list.name }}" class="question-field">{{ form.tag_list }}</span>
+                    </div>
+                    <div>
+                    {% for tag in tag_cloud %}
+                    <div class="tag-cloud" id="id_{{ tag.name }}">
                     {{ tag.name }}
-                {% endif %}
-            {% endfor %}
-        </p>
-        <p>
-            <strong>Description: </strong> {{ report.description }}
-        </p>
+                    </div>
+                    {% empty %}
+                    <p>No tags display.</p>
+                    {% endfor %}
+                    </div>
+                    <div>
+                    <label>{{ form.difficulty.label }}</label>
+                    {{ form.difficulty.error }}
+                    <span id="id_{{ form.difficulty.name }}" class="question-field">{{ form.difficulty }}</span>
+                    </div>
+                    <div>
+                    <label>{{ form.estimated_time.label }}</label>
+                    {{ form.estimated_time.error }}
+                    <span id="id_{{ form.estimated_time.name }}" class="question-field">{{ form.estimated_time }}</span>
+                    </div>
+                    <div>
+                    <label>{{ form.status.label }}</label>
+                    {{ form.status.error }}
+                    <span id="id_{{ form.status.name}}" class="question-field">{{ form.status }}</span>
+                    </div>
+                    <div class="hidden">
+                    <label>{{ form.creator.label }}</label>
+                    <span id="id_{{ form.creator.name }}" class="question-field">{{ form.creator }}</span>
+                    </div>
+                    <div class="hidden">
+                    <label>{{ form.date_updated.label }}</label>
+                    <span id="id_{{ form.date_updated.name }}" class="question-field">{{ form.date_updated }}</span>
+                    </div>
+                    <div>
+                    <label>{{ form.description.label }}</label>
+                    {{ form.description.error }}
+                    <br><span id="id_{{ form.description.name }}" class="question-field">{{ form.description }}</span>
+                    </div>
+                </div>
+                <input type='submit' class="js-question-form-submit" value="Submit"/>
+                <input type='button' class="js-question-form-cancel" value="Cancel"/>
+            </form>
+        </div>
+    <hr>
     </div>
-    <hr/>
     {% empty %}
-    <p>No reports found.</p>
+    <p>No question found.</p>
     {% endfor %}
 
     {% show_paginator reports %}
 
 </div>
 {% endblock %}
-
