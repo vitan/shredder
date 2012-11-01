@@ -30,3 +30,13 @@ class ShareQuestionForm(forms.Form):
     def clean_tag_list(self):
         data = self.cleaned_data['tag_list']
         return set(data.split(u','))
+
+
+class TagAdminForm(forms.ModelForm):
+
+    class Meta:
+        model = Tag
+
+    def clean_name(self):
+        name = self.cleaned_data["name"]
+        return name.strip()

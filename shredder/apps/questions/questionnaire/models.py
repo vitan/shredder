@@ -54,6 +54,7 @@ class Questionnaire(Base):
         url = '/questionnaire/%s/' % self.pk
         return url
 
+
 class QuestionnaireQuestion(Base):
 
     order = models.IntegerField(default=0)
