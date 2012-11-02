@@ -22,21 +22,15 @@ def share_question(request, template_name='question/share-question.html'):
     if request.method == 'POST':
         form  = ShareQuestionForm(request.POST)
         if form.is_valid():
-            des = form.cleaned_data['description']
-            dif = form.cleaned_data['difficulty']
-            est = form.cleaned_data['estimated_time']
-            tag_list = form.cleaned_data['tag_list']
 
-            question_object = Question(
-                description=des,
-                difficulty=dif,
-                estimated_time=est,
-                creator=request.user)
+            data = form.get_cleaned_data()
+            data['creator'] = request.user
+            tag_obj_set = data.pop('tag_obj_set')
+            question_object = Question(**data)
             question_object.save()
-            # TODO (weitao zhou)bulk insert optimization 
-            for tag in tag_list:
-                tag_object, created = Tag.objects.get_or_create(name=tag)
-                question_object.tags.add(tag_object)
+            #TODO (weizhou) need a good solution for save manytomanyfield
+            for tag_obj in tag_obj_set:
+                question_object.tags.add(tag_obj)
 
         else:
             return render_to_response(template_name, {

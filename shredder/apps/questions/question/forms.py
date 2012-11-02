@@ -28,9 +28,25 @@ class ShareQuestionForm(forms.Form):
     )
 
     def clean_tag_list(self):
-        data = self.cleaned_data['tag_list']
-        return set(data.split(u','))
+        '''Return a set containing Tag object.'''
 
+        tag_obj_set = set()
+        data = self.cleaned_data['tag_list']
+        for tag in data.split(u','):
+            try:
+                tag_obj = Tag.objects.get(name=tag.strip())
+                tag_obj_set.add(tag_obj)
+            except Tag.DoesNotExist:
+                raise forms.ValidationError("Cannot find Tag %s" % tag)
+        return tag_obj_set
+
+    def get_cleaned_data(self):
+        return {
+            'description': self.cleaned_data['description'],
+            'difficulty': self.cleaned_data['difficulty'],
+            'estimated_time': self.cleaned_data['estimated_time'],
+            'tag_obj_set':self.cleaned_data['tag_list'],
+        }
 
 class TagAdminForm(forms.ModelForm):
 
