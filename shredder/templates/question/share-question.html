@@ -2,6 +2,10 @@
 
 {% block title %}Share My Question{% endblock %}
 
+{% block extrahead %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/shredder.question.js"></script>
+{% endblock %}
+
 {% block content %}
 <div class="content">
     <form  name="share_question_form" method="POST" action="">
@@ -19,6 +23,11 @@
                     {{ form.tag_list.errors }}
                     {{ form.tag_list }}
                 </li>
+                {% for tag in tag_cloud %}
+                <div class="tag_cloud" id="id_{{ tag.name }}">
+                {{ tag.name }}
+                </div>
+                {% endfor %}
                 <li>
                     <label>{{ form.difficulty.label }}</label>
                     {{ form.difficulty.errors }}

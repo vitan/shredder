@@ -16,13 +16,12 @@ import apps.questions.settings as question_settings
 
 @login_required
 def share_question(request, template_name='question/share-question.html'):
-    """
-    display the share question form
-    """
+    """Display the share question form."""
+
+    tag_cloud = Tag.objects.all()
     if request.method == 'POST':
         form  = ShareQuestionForm(request.POST)
         if form.is_valid():
-
             data = form.get_cleaned_data()
             data['creator'] = request.user
             tag_obj_set = data.pop('tag_obj_set')
@@ -31,24 +30,24 @@ def share_question(request, template_name='question/share-question.html'):
             #TODO (weizhou) need a good solution for save manytomanyfield
             for tag_obj in tag_obj_set:
                 question_object.tags.add(tag_obj)
-
         else:
             return render_to_response(template_name, {
                 'title': u"Share My Question",
                 'form': form,
+                'tag_cloud': tag_cloud,
                 }, context_instance=RequestContext(request))
 
     return render_to_response(template_name, {
         'title': u"Share My Question",
         'form': ShareQuestionForm(),
+        'tag_cloud': tag_cloud,
         },context_instance=RequestContext(request))
 
 
 @login_required
 def question_list(request, template_name='question/question-list.html'):
-    """
-    list the submitted questions
-    """
+    """List the submitted questions."""
+
     questions = Question.objects.all()
     if request.method == 'POST':
         pass
