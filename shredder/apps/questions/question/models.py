@@ -62,10 +62,3 @@ class Question(Base):
     def __str__(self):
         return u'Question - %s' % truncate_words(self.question, 5)
     __unicode__ = __str__
-
-    def get_status(self):
-        return self.STATUS.get(self.status, u'unset')
-
-    def get_difficulty(self):
-        return self.DIFFICULTIES.get(self.difficulty, u'unset')
-
