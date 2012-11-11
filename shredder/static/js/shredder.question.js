@@ -13,7 +13,33 @@ shredder.init = {
 		      shredder.ui.readonly('input#id_tag_list');
 		      shredder.ui.tagCloud();
 		      shredder.ui.displayFormToggle();
+		      shredder.form.submitToggle();
 	      }
+        },
+}
+
+shredder.form = {
+	submitToggle: function(){
+		$('form.review-question-form').live('submit', function(){
+            var obj = $(this);
+		    var form_container = obj.parent().find(".form-post-part");
+		    var question_container = obj.parent().parent().find(".question");
+		    var url = obj.attr("action");
+		    var data = obj.serialize();
+		    shredder.ajax.post(url, data, function(response){
+			    if(shredder.ajax.isSuccessful(response.rc)){
+                    shredder.ui.fieldFill(-1, form_container);
+                    obj.parent().hide();
+                    obj.parent().parent('div').find('.question-display').show();
+                    return true;
+			    }
+			    else{
+                    //TODO (weizhou) form error display
+				    alert(response);
+			    }
+		    });
+		    return false;
+	       });
         },
 }
 
@@ -23,11 +49,12 @@ shredder.ui = {
 	},
 	questionListDisplay: function(){
 	     var divForm = $('div.form-post-part');
+         //TODO (weizhou) args: index is invalid now.
 	     divForm.each(this.fieldFill);
 	},
-    fieldFill: function(){
-         var divDisplay = $(this).parent().parent().parent().find('div.question-display');
-         var span = $(this).find("span.question-field");
+    fieldFill: function(index, divObj){
+         var divDisplay = $(divObj).parent().parent().parent().find('div.question-display');
+         var span = $(divObj).find("span.question-field");
          span.each(function(){
              var id = $(this).attr('id');
              var val = null;

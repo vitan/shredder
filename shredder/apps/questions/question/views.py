@@ -1,17 +1,25 @@
 #!/usr/bin/env python
 #Add by Weitao Zhou <zhouwtlord@gmail.com>
 
-from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, Http404
-from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.shortcuts import render_to_response, get_object_or_404
+from django.template import RequestContext
 
-from apps.questions.question.forms import ShareQuestionForm, QuestionReviewForm
+from apps.common.views import AjaxResponseMixin
 from apps.questions.question.models import Question, Tag
+from apps.questions.question.forms import ShareQuestionForm, QuestionReviewForm
 import apps.questions.settings as question_settings
+
+
+__all__ = {
+    'share_question',
+    'question_list',
+    'question_review',
+}
 
 
 @login_required
@@ -50,9 +58,6 @@ def question_list(request, template_name='question/question-list.html'):
 
     tag_cloud = Tag.objects.all()
     questions = Question.objects.all()
-    if request.method == 'POST':
-        pass
-
     paginator = Paginator(questions, question_settings.QUESTIONS_PER_PAGE)
     try:
         page = int(request.GET.get('page', '1'))
@@ -79,3 +84,30 @@ def question_list(request, template_name='question/question-list.html'):
         'pk_forms': pk_forms,
         'tag_cloud': tag_cloud,
         },context_instance=RequestContext(request))
+
+
+@login_required
+def question_review(request, question_id):
+    """Review the submitted question."""
+
+    response = AjaxResponseMixin()
+    if request.method == 'POST':
+        form = QuestionReviewForm(request.POST)
+        if form.is_valid():
+            data = form.get_cleaned_data()
+            question_obj = Question.objects.get(pk=question_id)
+            question_obj.description = data['description']
+            question_obj.estimated_time = data['estimated_time']
+            question_obj.status = data['status']
+            question_obj.difficulty = data['difficulty']
+
+            question_obj.tags.clear()
+            for tag_obj in data['tag_obj_set']:
+                question_obj.tags.add(tag_obj)
+            question_obj.save()
+
+            return response.ajax_response()
+
+        else:
+            form_invalid = {'html': form.errors}
+            return response.ajax_response(**form_invalid)
