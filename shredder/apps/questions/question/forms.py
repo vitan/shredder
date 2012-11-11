@@ -49,6 +49,8 @@ class ShareQuestionForm(forms.Form):
             'tag_obj_set':self.cleaned_data['tag_list'],
         }
 
+#TODO (weizhou) abstract tag form as a common form in the future. And I should\
+        #look Tag as an independent model, to put model Tag, TagAdminForm in common 
 class TagAdminForm(forms.ModelForm):
 
     class Meta:

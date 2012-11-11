@@ -4,10 +4,6 @@
 
 {% block title %}Question List{% endblock %}
 
-{% block extrahead %}
-<script type="text/javascript" src="{{ STATIC_URL }}js/shredder.question.js"></script>
-{% endblock %}
-
 {% block content %}
 <div class="content" id="id_question_list">
     {% for pk, form in pk_forms.items %}
