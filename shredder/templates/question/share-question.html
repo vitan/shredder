@@ -8,41 +8,38 @@
 
 {% block content %}
 <div class="content">
-    <form  name="share_question_form" method="POST" action="">
+    <form class="share-question-form" name="share_question_form" method="POST" action="">
         {% csrf_token %}
         <div>
-            <ul>
-                <li>
-                    <label>{{ form.description.label }}</label>
-                    <br>
-                    {{ form.description.errors }}
-                    {{ form.description }}
-                </li>
-                <li>
-                    <label>{{ form.tag_list.label }}</label>
-                    {{ form.tag_list.errors }}
-                    {{ form.tag_list }}
-                </li>
-                {% for tag in tag_cloud %}
-                <div class="tag-cloud" id="id_{{ tag.name }}">
-                {{ tag.name }}
-                </div>
-                {% empty %}
-                <p>No tags display.</p>
-                {% endfor %}
-                <li>
-                    <label>{{ form.difficulty.label }}</label>
-                    {{ form.difficulty.errors }}
-                    {{ form.difficulty }}
-                </li>
-                <li>
-                    <label>{{ form.estimated_time.label }}</label>
-                    {{ form.estimated_time.errors }}
-                    {{ form.estimated_time }}
-                </li>
-            </ul>
-            <input id="id_share" type="submit" value="Share My Question"/>
+        <label>{{ form.description.label }}</label>
+        {{ form.description.errors }}
+        <br><span id="id_{{ form.description.name }}" class="question-field">{{ form.description }}</span>
         </div>
+        <div>
+        <label>{{ form.tag_list.label }}</label>
+        {{ form.tag_list.errors }}
+        <span id="id_{{ form.tag_list.name }}" class="question-field">{{ form.tag_list }}</span>
+        </div>
+        <div>
+        {% for tag in tag_cloud %}
+        <div class="tag-cloud" id="id_{{ tag.name }}">
+        {{ tag.name }}
+        </div>
+        {% empty %}
+        <p>No tags display.</p>
+        {% endfor %}
+        </div>
+        <div>
+        <label>{{ form.difficulty.label }}</label>
+        {{ form.difficulty.errors }}
+        <span id="id_{{ form.difficulty.name }}" class="question-field">{{ form.difficulty }}</span>
+        </div>
+        <div>
+        <label>{{ form.estimated_time.label }}</label>
+        {{ form.estimated_time.errors }}
+        <span id="id_{{ form.estimated_time.name }}" class="question-field">{{ form.estimated_time }}</span>
+        </div>
+        <input id="id_share" type="submit" value="Share My Question"/>
     </form>
 </div>
 {% endblock %}
