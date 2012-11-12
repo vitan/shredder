@@ -72,7 +72,7 @@ shredder.ui = {
 	tagCloud: function(){
 	    $('div.tag-cloud').click(function() {
 		var array = [];
-		val = $('input#id_tag_list').val();
+		val = $(this).parent().parent().find('input#id_tag_list').val();
 		if(val){
 		    array = val.split(',');
 		}
@@ -84,7 +84,7 @@ shredder.ui = {
 		else{
 		    array.push(text);
 		}
-		$('input#id_tag_list').val(array.join(','));
+		$(this).parent().parent().find('input#id_tag_list').val(array.join(','));
 	    });
 	},
 	displayFormToggle: function(){
