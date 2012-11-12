@@ -64,8 +64,6 @@ class Question(Base):
     __unicode__ = __str__
 
     def _get_textual_tags(self):
-        text = []
-        for tag in self.tags.all():
-            text.append(tag.name)
+        text = [tag.name for tag in self.tags.all()]
         return u','.join(text)
     textual_tags = property(_get_textual_tags)
