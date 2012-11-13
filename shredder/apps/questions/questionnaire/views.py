@@ -126,3 +126,19 @@ def questionnaire_history(request, template_name="questionnaire/questionnaire-hi
         'title': u"Questionnaire History",
         'reports': reports,
         }, context_instance=RequestContext(request))
+
+@login_required
+def questionnaire_display(request, questionnaire_id, template_name="questionnaire/questionnaire-display.html"):
+    """Display the questionnaire."""
+
+    try:
+        questionnaire = Questionnaire.objects.get(pk=questionnaire_id)
+        questions = questionnaire.questions_set.all().order_by('order')
+    except Questionnaire.DoesNotExist as error:
+        raise error
+
+    return render_to_response(template_name, {
+        'title': questionnaire.name,
+        'questionnaire': questionnaire,
+        'questions': questions,
+        }, context_instance=RequestContext(request))

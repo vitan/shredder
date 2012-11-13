@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Questionnaire{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div>
+    <label>Position</label>
+    {% for position in questionnaire.position.all %}
+        <br><span class="questionnaire-head">{{ position }}</span>
+    {% endfor %}
+    </div>
+    <div>
+    <label>Tag</label>
+    {% for tag in questionnaire.tags.all %}
+        <br><span class="questionnaire-head">{{ tag }}</span>
+    {% endfor %}
+    </div>
+    <div>
+    <label>Description</label>
+    <br><span class="questionnaire-head">{{ questionnaire.description }}</span>
+    </div>
+    <hr>
+    {% for question in questions %}
+    <div>
+        <span class ="questionnaire-body">{{ question.order }}. {{ question.question.description }}</span>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
