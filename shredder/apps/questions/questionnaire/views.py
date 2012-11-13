@@ -13,13 +13,15 @@ from django.template import RequestContext
 from random import randint
 
 from apps.common.views import AjaxResponseMixin
-from apps.questions.questionnaire.models import Position, Questionnaire, QuestionnaireQuestion
 from apps.questions.questionnaire.forms import GenerateQuestionnaireForm
-from apps.questions.question.models import Tag, Question
+from apps.questions.questionnaire.models import Position, Questionnaire, QuestionnaireQuestion
+from apps.questions.question.models import Question, Tag
+import apps.questions.settings as questionnaire_settings
 
 
 __all__ = {
     'generate_questionnaire',
+    'questionnaire_history',
 }
 
 
@@ -44,7 +46,8 @@ def generate_questionnaire(request, template_name="questionnaire/generate-questi
                 }
                 questionnaire_obj = Questionnaire(**data)
                 questionnaire_obj.save()
-                #TODO (weizhou) position field would be changed in the future
+                #TODO (weizhou) as in model position is an manytomany field,\
+                #here I set a wrong form field type for position. The following would be changed in the future
                 questionnaire_obj.position.add(kwargs['position'])
                 for tag_obj in kwargs['tag_obj_set']:
                     questionnaire_obj.tags.add(tag_obj)
@@ -102,3 +105,24 @@ def randint_n_generator(min, max, n):
         result.add(num)
         if len(result) == n:
             return result
+
+@login_required
+def questionnaire_history(request, template_name="questionnaire/questionnaire-history.html"):
+    '''Return questionnaire history. '''
+
+    questionnaires = Questionnaire.objects.all()
+    paginator = Paginator(questionnaires, questionnaire_settings.QUESTIONNAIRES_PER_PAGE)
+    try:
+        page = int(request.GET.get('page', '1'))
+    except ValueError:
+        page = 1
+
+    try:
+        reports = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        reports = paginator.page(paginator.num_pages)
+
+    return render_to_response(template_name, {
+        'title': u"Questionnaire History",
+        'reports': reports,
+        }, context_instance=RequestContext(request))

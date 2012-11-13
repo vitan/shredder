@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% load show_paginator %}
+
+{% block title %}Questionnaire History{% endblock %}
+
+{% block content %}
+<div class="content" id="id_questionnaire_history">
+    <table class="table3">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in reports.object_list %}
+            <tr>
+                <td>{{ report.pk }}</td>
+                <td><a href="">{{ report.name }}</a></td>
+                <td>{{ report.description }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No question found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% show_paginator reports %}
+
+</div>
+{% endblock %}

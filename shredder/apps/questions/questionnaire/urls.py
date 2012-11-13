@@ -4,4 +4,5 @@ from django.views.generic.simple import redirect_to
 
 urlpatterns = patterns('apps.questions.questionnaire.views',
     url(r'^generate-questionnaire/$', 'generate_questionnaire', name="generate_questionnaire"),
+    url(r'^questionnaire-history/$', 'questionnaire_history', name="questionnaire_history"),
 )
