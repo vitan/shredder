@@ -8,23 +8,38 @@
         {% csrf_token %}
         <div class="form-post-part">
             <div>
-            <label>{{ form.position.label }}</label>
-            {{ form.position.errors }}
-            <span id="id_{{ form.position.name }}" class="generate-set-field">{{ form.position }}</span>
+                <label>{{ form.name.label }}</label>
+                {{ form.name.errors }}
+                {{ form.name }}
             </div>
             <div>
-            <label>{{ form.tag_list.label }}</label>
-            {{ form.tag_list.errors }}
-            <span id="id_{{ form.tag_list.name }}" class="generate-set-field">{{ form.tag_list }}</span>
+                <label>{{ form.description.label }}</label>
+                {{ form.description.errors }}
+                {{ form.description }}
             </div>
             <div>
-            {% for tag in tag_cloud %}
-            <div class="tag-cloud" id="id_{{ tag.name }}">
-            {{ tag.name }}
+                <label>{{ form.time_used.label }}</label>
+                {{ form.time_used.errors }}
+                {{ form.time_used }}
             </div>
-            {% empty %}
-            <p>No tags display.</p>
-            {% endfor %}
+            <div>
+                <label>{{ form.position.label }}</label>
+                {{ form.position.errors }}
+                <span id="id_{{ form.position.name }}" class="generate-set-field">{{ form.position }}</span>
+            </div>
+            <div>
+                <label>{{ form.tag_list.label }}</label>
+                {{ form.tag_list.errors }}
+                <span id="id_{{ form.tag_list.name }}" class="generate-set-field">{{ form.tag_list }}</span>
+            </div>
+            <div>
+                {% for tag in tag_cloud %}
+                <div class="tag-cloud" id="id_{{ tag.name }}">
+                {{ tag.name }}
+                </div>
+                {% empty %}
+                <p>No tags display.</p>
+                {% endfor %}
             </div>
             <!--TODO (weizhou) max&min value auto-refresh as tag selected-->
             {% for field in form %}
@@ -36,14 +51,13 @@
             </div>
             {% endifequal %}
             {% endfor %}
+            <div class="hidden">
+                {{ form.question_order }}
+            </div>
         </div>
-        <input class="js-questionnaire-form-generate" type="submit" value="Generate"/>
+        <input class="js-questionnaire-form-generate" name="questionnaire_generate" type="submit" value="Generate"/>
+        <input class="js-questionnaire-form-save" name="questionnaire_save" type="submit" value="Save"/>
     </form>
-    <form name="question_order_form" method="POST" action="">
-        {% csrf_token %}
-        <div class="generated-questionnaire">
-        </div>
-        <input class="js-questionnaire-form-save" type="submit" value="Save"/>
-    </form>
+    <div class="generated-questionnaire"></div>
 </div>
 {% endblock %}

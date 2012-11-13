@@ -21,6 +21,7 @@ class GenerateQuestionnaireForm(forms.Form):
                 required=False,
             )
 
+    #TODO (weizhou) should change the position as tag_list style
     position = forms.ModelChoiceField(
         label=u"Position",
         queryset=Position.objects.all().filter(is_open=True),
@@ -29,6 +30,26 @@ class GenerateQuestionnaireForm(forms.Form):
     tag_list = forms.CharField(
         label=u"Tags",
         max_length=form_settings.FORM_TAG_LIST_MAX_LENGTH,
+        required=False,
+    )
+    name = forms.CharField(
+        label=u"Name",
+        max_length=form_settings.FORM_QUESTIONNAIRE_NAME_MAX_LENGTH,
+    )
+    description = forms.CharField(
+        label=u"Description",
+        max_length=form_settings.FORM_QUESTIONNAIRE_DESC_MAX_LENGTH,
+        widget=forms.Textarea,
+        required=False,
+    )
+    # TODO (weizhou) think about how to set time_used once have time
+    time_used = forms.IntegerField(
+        label=u"Time-used",
+        min_value=0,
+        required=False,
+    )
+    question_order = forms.CharField(
+        max_length=255,
         required=False,
     )
 
@@ -46,6 +67,10 @@ class GenerateQuestionnaireForm(forms.Form):
                     raise forms.ValidationError("Cannot find Tag %s" % tag)
         return tag_obj_set
 
+    def clean_question_order(self):
+        data = self.cleaned_data['question_order']
+        return [pk for pk in data.split(u',') if pk]
+
     def get_cleaned_data(self):
         cleaned_dict = dict()
         cleaned_dict.update({
@@ -55,42 +80,10 @@ class GenerateQuestionnaireForm(forms.Form):
         cleaned_dict.update({
             'position': self.cleaned_data['position'],
             'tag_obj_set': self.cleaned_data['tag_list'],
+            'name': self.cleaned_data['name'],
+            'description': self.cleaned_data['description'],
+            'question_order': self.cleaned_data['question_order'],
+            'time_used': self.cleaned_data['time_used'],
         })
 
         return cleaned_dict
-
-
-"""
-def questionnaire_form_factory(question=Question): 
-    '''
-    Return a form class GenerateQuestionnaire, expect model Question to
-    init the dynamic form field.
-    '''
-
-    fields = {
-        'position': forms.ModelChoiceField(
-            label=u"Position",
-            queryset=Position.objects.all().filter(is_open=True),
-            empty_label=None,
-        ),
-        'tags': forms.ModelChoiceField(
-            label=u"Generate from Tags",
-            widget=forms.CheckboxSelectMultiple,
-            queryset=Tag.objects.all(),
-            empty_label=None,
-        ),
-    }
-
-    for level in question.QUESTION_DIFFICULTY:
-        fields["level_%s" % level[0]] = forms.IntegerField(
-            label=u"level %s" % level[1],
-            min_value=0,
-            max_value=question.objects.filter(difficulty=level[0]).count(),
-            required=False,
-        )
-
-    return type('GenerateQuestionnaire', (forms.BaseForm,), {'base_fields': fields })
-
-
-GenerateQuestionnaireForm = questionnaire_form_factory()
-"""

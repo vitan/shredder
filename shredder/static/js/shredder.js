@@ -49,8 +49,8 @@ shredder.form = {
 	       });
         },
 	generateSubmitToggle: function(){
-		$('form.generate-questionnaire-form').live('submit', function(){
-		    var obj = $(this);
+		$('form.generate-questionnaire-form .js-questionnaire-form-generate').live('click', function(){
+		    var obj = $(this).parent();
 		    var form_container = obj.parent().find(".form-post-part");
 		    var questionnaire_container = obj.parent().parent().find("div.generated-questionnaire");
 		    var url = obj.attr("action");
@@ -58,11 +58,14 @@ shredder.form = {
 		    shredder.ajax.post(url, data, function(response){
 			    if(shredder.ajax.isSuccessful(response.rc)){
 				    var html = [];
+				    var pk_order = [];
 				    $.each(response.data.items, function(index, value){
 					    var span = '<div><span order="'+index+'" id="id_'+value.pk+'">'+value.desc+'</span></div>'; 
 					    html.push(span);
+					    pk_order.push(value.pk);
 				    });
 				    questionnaire_container.html(html.join(''));
+				    $('input#id_question_order').val(pk_order.join(','));
 				    return true;
 			    }
 			    else{

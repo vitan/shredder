@@ -58,5 +58,5 @@ class Questionnaire(Base):
 class QuestionnaireQuestion(Base):
 
     order = models.IntegerField(default=0)
-    questionaire = models.ForeignKey(Questionnaire)
+    questionnaire = models.ForeignKey(Questionnaire)
     question = models.ForeignKey(Question)
