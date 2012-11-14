@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 
 from random import randint
@@ -61,6 +61,7 @@ def generate_questionnaire(request, template_name="questionnaire/generate-questi
                     )
                     map_obj.save()
                     count += 1
+                return redirect(questionnaire_obj.get_absolute_url())
 
             else:
                 questions = auto_generate(**kwargs)

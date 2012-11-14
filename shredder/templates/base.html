@@ -19,11 +19,10 @@
     <body>
     <!-- Whole -->
         {% block header %}
-            <a href="#" title="Go to homepage" class="logo" style="font-style:italic;font-size:70;font-color:red">Shredder</a>
+            <a href="#" title="Go to homepage" class="logo">Shredder</a>
         {% endblock %}
         <hr>
         {% include "menu.html" %}
-        <hr>
         <div>
             {% block pretitle %}{% endblock %}
             {% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}

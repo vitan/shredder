@@ -46,7 +46,7 @@ def share_question(request, template_name='question/share-question.html'):
                     question_object.tags.add(tag_obj)
         else:
             return render_to_response(template_name, {
-                'title': u"Share My Question",
+                'title': u"Share Question",
                 'form': form,
                 'tag_cloud': tag_cloud,
                 }, context_instance=RequestContext(request))
