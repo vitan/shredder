@@ -16,3 +16,13 @@ div.tag-cloud:hover {background:yellow;}
 input[readonly="readonly"]{background-color: lightgray;}
 .hidden { display: none;}
 textarea {width: 350px; height:110px}
+#id_tag_list {
+	width: 30%;
+}
+span.questionnaire-body {
+	display: inline-block;
+	height: 160px;
+}
+form * {
+	vertical-align: top;
+}

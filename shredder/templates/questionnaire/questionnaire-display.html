@@ -23,7 +23,10 @@
     <hr>
     {% for question in questions %}
     <div>
-        <span class ="questionnaire-body">{{ question.order }}. {{ question.question.description }}</span>
+        <span class ="questionnaire-body">
+            <strong>{{ question.order }}.</strong>
+            {{ question.question.description }}
+        </span>
     </div>
     {% endfor %}
 </div>
