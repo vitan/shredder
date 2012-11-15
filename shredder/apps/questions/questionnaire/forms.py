@@ -9,6 +9,13 @@ from apps.questions.question.models import Tag, Question
 import apps.questions.settings as form_settings
 
 
+class PositionModelForm(forms.ModelForm):
+    description = forms.CharField(widget=forms.Textarea)
+
+    class Meta:
+        model = Position
+
+
 class GenerateQuestionnaireForm(forms.Form):
 
     def __init__(self, *args, **kwargs):

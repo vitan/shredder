@@ -4,6 +4,7 @@
 from django.contrib import admin
 
 from apps.questions.questionnaire.models import Department, Position
+from apps.questions.questionnaire.forms import PositionModelForm
 
 
 class DepartmentAdmin(admin.ModelAdmin):
@@ -28,5 +29,6 @@ class PositionAdmin(admin.ModelAdmin):
     list_filter = ('is_open',
                    'name',
                    'department',)
+    form = PositionModelForm
 
 admin.site.register(Position, PositionAdmin)
