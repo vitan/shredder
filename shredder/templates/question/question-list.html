@@ -37,6 +37,10 @@
             <label>{{ form.description.label }}</label>
             <br><span id="id_{{ form.description.name }}" class="question-field"></span>
             </div>
+            <div>
+            <label>{{ form.type.label }}</label>
+            <br><span id="id_{{ form.type.name }}" class="question-field"></span>
+            </div>
             <input type='button' class="js-question-review-button" value="Review"/>
         </div>
         <div class="review-form hidden" id="id_question_form_{{ pk }}">
@@ -84,6 +88,11 @@
                     <label>{{ form.description.label }}</label>
                     {{ form.description.errors }}
                     <br><span id="id_{{ form.description.name }}" class="question-field">{{ form.description }}</span>
+                    </div>
+                    <div>
+                    <label>{{ form.type.label }}</label>
+                    {{ form.type.errors }}
+                    <br><span id="id_{{ form.type.name }}" class="question-field">{{ form.type }}</span>
                     </div>
                 </div>
                 <input type='submit' class="js-question-form-submit" value="Submit"/>

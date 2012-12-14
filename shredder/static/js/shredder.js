@@ -61,10 +61,11 @@ shredder.ui = {
              var id = $(this).attr('id');
              var val = null;
              var child = $(this).find('>:first-child');
-             val = child.val();
-             if (child.prop("tagName") == "SELECT"){
-                 val = $(this).find('>:first-child option:selected').text();
-             }
+
+	     select_val = child.find('option:selected').text();
+	     radio_val = child.find('input[type=radio]:checked').parent().text();
+
+             val = select_val||radio_val||child.val();
              divDisplay.find('span#'+id).text(val);
 	   });
 	},
