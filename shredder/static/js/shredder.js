@@ -6,6 +6,8 @@ shredder.init = {
 	main: function(){
 	      if(shredder.ui.exists('form.share-question-form')){
 		      shredder.ui.readonly('input#id_tag_list');
+		      shredder.ui.type_checked('input#id_type_0');
+		      shredder.ui.objective_choice_display();
 		      shredder.ui.tagCloud();
 	      }
 	      if(shredder.ui.exists('#id_question_list')){
@@ -52,10 +54,10 @@ shredder.ui = {
          //TODO (weizhou) args: index is invalid now.
 	     divForm.each(this.fieldFill);
 	},
-    fieldFill: function(index, divObj){
-         var divDisplay = $(divObj).parent().parent().parent().find('div.question-display');
-         var span = $(divObj).find("span.question-field");
-         span.each(function(){
+    	fieldFill: function(index, divObj){
+	   var divDisplay = $(divObj).parent().parent().parent().find('div.question-display');
+	   var span = $(divObj).find("span.question-field");
+	   span.each(function(){
              var id = $(this).attr('id');
              var val = null;
              var child = $(this).find('>:first-child');
@@ -64,11 +66,55 @@ shredder.ui = {
                  val = $(this).find('>:first-child option:selected').text();
              }
              divDisplay.find('span#'+id).text(val);
-         });
-    },
+	   });
+	},
 	readonly: function(selector) {
 	    $(selector).attr("readonly",true);
         },
+	type_checked: function(selector) {
+	    $(selector).attr("checked", true);
+        },
+	objective_choice_display: function() {
+	   $('#id_hide_choice').attr('disabled', 'disabled');
+	   $('input[type="radio"]').change(function(){
+		   var checkbox = $(this).find('input[type="checkbox"]');
+		   checkbox.attr('checked', !checkbox.attr('checked'));
+
+		   var col_is_answer = $('.choice-config');
+		   if(col_is_answer.hasClass('hidden')){
+			   col_is_answer.removeClass('hidden');
+		   }
+		   else{
+			   col_is_answer.addClass('hidden');
+		   }
+	   });
+	   $('#id_show_choice').click(function(){
+		   var choice_num = parseInt($('#id_choice_set-MAX_NUM_FORMS').val())||0;
+		   var choice_total = $('#id_choice_set-TOTAL_FORMS').val();
+
+		   choice_num = choice_num + 1;
+		   $('#id_choice_set-MAX_NUM_FORMS').val(choice_num);
+		   $('#id_choice_set-'+choice_num+'-description').parent().parent().removeClass('hidden');
+
+		   $("#id_hide_choice").removeAttr("disabled");
+		   if(choice_num+1 == choice_total) {
+			   $(this).attr("disabled", "disabled");
+		   }
+	   });
+	   $('#id_hide_choice').click(function(){
+		   var choice_num = parseInt($('#id_choice_set-MAX_NUM_FORMS').val())||0;
+		   var choice_total = $('#id_choice_set-TOTAL_FORMS').val();
+
+		   $('#id_choice_set-'+choice_num+'-description').parent().parent().addClass('hidden');
+		   choice_num = choice_num-1;
+		   $('#id_choice_set-MAX_NUM_FORMS').val(choice_num);
+
+		   $("#id_show_choice").removeAttr("disabled");
+		   if(choice_num == 0){
+			   $(this).attr("disabled", "disabled");
+		   }
+	   });
+       },
 	tagCloud: function(){
 	    $('div.tag-cloud').click(function() {
 		var array = [];

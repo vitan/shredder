@@ -10,8 +10,8 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
 from apps.common.views import AjaxResponseMixin
-from apps.questions.question.models import Question, Tag
-from apps.questions.question.forms import ShareQuestionForm, QuestionReviewForm
+from apps.questions.question.models import Choice, Question, Tag
+from apps.questions.question.forms import ShareQuestionForm, ChoiceFormSet, QuestionReviewForm
 import apps.questions.settings as question_settings
 
 
@@ -27,17 +27,23 @@ def share_question(request, template_name='question/share-question.html'):
     """Display the share question form."""
 
     tag_cloud = Tag.objects.all()
+
     if request.method == 'POST':
-        form  = ShareQuestionForm(request.POST)
+        form = ShareQuestionForm(request.POST)
         if form.is_valid():
             data = form.get_cleaned_data()
             data['creator'] = request.user
             tag_obj_set = data.pop('tag_obj_set')
             question_object = Question(**data)
-            question_object.save()
-            #TODO (weizhou) need a good solution for save manytomanyfield
-            for tag_obj in tag_obj_set:
-                question_object.tags.add(tag_obj)
+
+            choice_formset = ChoiceFormSet(request.POST,
+                                                 instance=question_object)
+            if choice_formset.is_valid():
+                question_object.save()
+                choice_formset.save()
+                #TODO (weizhou) need a good solution for save manytomanyfield
+                for tag_obj in tag_obj_set:
+                    question_object.tags.add(tag_obj)
         else:
             return render_to_response(template_name, {
                 'title': u"Share My Question",
@@ -45,9 +51,13 @@ def share_question(request, template_name='question/share-question.html'):
                 'tag_cloud': tag_cloud,
                 }, context_instance=RequestContext(request))
 
+    form = ShareQuestionForm()
+    choice_formset = ChoiceFormSet()
+
     return render_to_response(template_name, {
         'title': u"Share My Question",
-        'form': ShareQuestionForm(),
+        'form': form,
+        'choice_formset': choice_formset,
         'tag_cloud': tag_cloud,
         },context_instance=RequestContext(request))
 

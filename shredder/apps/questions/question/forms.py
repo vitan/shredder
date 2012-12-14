@@ -2,9 +2,11 @@
 #Added by Weitao Zhou <zhouwtlord@gmail.com> 
 
 from django import forms
+from django.forms import ModelForm, Textarea
 from django.conf import settings
+from django.forms.models import inlineformset_factory
 
-from apps.questions.question.models import Question, Tag
+from apps.questions.question.models import Choice, Question, Tag
 import apps.questions.settings as question_settings
 
 class ShareQuestionForm(forms.Form):
@@ -13,6 +15,11 @@ class ShareQuestionForm(forms.Form):
         label=u"Description",
         max_length=question_settings.QUESTION_MAX_LENGTH,
         widget=forms.Textarea,
+    )
+    type = forms.ChoiceField(
+        label=u"Question-Type",
+        widget=forms.RadioSelect(),
+        choices=Question.QUESTION_TYPE,
     )
     tag_list = forms.CharField(
         label=u"Tags",
@@ -47,7 +54,26 @@ class ShareQuestionForm(forms.Form):
             'difficulty': self.cleaned_data['difficulty'],
             'estimated_time': self.cleaned_data['estimated_time'],
             'tag_obj_set':self.cleaned_data['tag_list'],
+            'type': self.cleaned_data['type'],
         }
+
+
+class ChoiceForm(ModelForm):
+    class Meta:
+        model = Choice
+        widgets = {
+            'description': Textarea(),
+        }
+
+
+ChoiceFormSet = inlineformset_factory(
+    Question,
+    Choice,
+    form=ChoiceForm,
+    can_delete=False,
+    extra=question_settings.CHOICE_MAX,
+)
+
 
 #TODO (weizhou) abstract tag form as a common form in the future. And I should\
         #look Tag as an independent model, to put model Tag, TagAdminForm in common 

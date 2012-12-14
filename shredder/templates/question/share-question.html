@@ -7,6 +7,11 @@
     <form class="share-question-form" name="share_question_form" method="POST" action="">
         {% csrf_token %}
         <div>
+        <label>{{ form.type.label }}</label>
+        {{ form.type.errors }}
+        <br><span id="id_{{ form.type.name }}" class="question-field">{{ form.type }}</span>
+        </div>
+        <div>
         <label>{{ form.description.label }}</label>
         {{ form.description.errors }}
         <br><span id="id_{{ form.description.name }}" class="question-field">{{ form.description }}</span>
@@ -35,6 +40,37 @@
         {{ form.estimated_time.errors }}
         <span id="id_{{ form.estimated_time.name }}" class="question-field">{{ form.estimated_time }}</span>
         </div>
+        <table class="choice-formset table1">
+            <tr>
+                <th><label>{{ choice_formset.forms.0.description.label }}</label></th>
+                <th class="choice-config hidden"><label>{{ choice_formset.forms.0.is_answer.label }}</label></th>
+            </tr>
+            {% for f in choice_formset.management_form %}
+            {{ f }}
+            {% endfor %}
+            {% for f in choice_formset.forms %}
+            {% if forloop.first %}
+            <tr>
+            {% else %}
+            <tr class="objective-choices hidden">
+            {% endif %}
+                <td>
+                    {{ f.description.errors }}
+                    {{ f.description }}
+                </td>
+                <td class="choice-config hidden">
+                    {{ f.is_answer.errors }}
+                    {{ f.is_answer }}
+                </td>
+                {% if forloop.first %}
+                <td class="choice-config hidden" rowspan="{{ choice_formset.forms|length }}" valign="bottom">
+                    <input type="button" id="id_hide_choice" value="-">
+                    <input type="button" id="id_show_choice" value="+">
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
         <input id="id_share" type="submit" value="Share My Question"/>
     </form>
 </div>

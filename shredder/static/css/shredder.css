@@ -1,99 +1,18 @@
 /* CSS Document */
 
 @charset "UTF-8";
-/*Margin*/
-.whole{ margin: 0px auto; width: 1210px; min-width: 1210px;}
-.auto-0{ margin: 0 auto!important;}
-.container{ width:1210px; margin: 0 auto;}
-
-/*Tree*/
-.tree{width: 600px; overflow: visible; border: 1px solid #eee;float: left; overflow-x:visible; }
-.tree-title{ height:33px; line-height:25px; margin-bottom:5px; border-bottom:dotted 1px #ccc; background:#f5f5f5}
-.tree-title h3{ margin-left:10px;}
-
-/*Content*/
-.package-content{width: 590px; float: left;border: 1px solid #ccc; margin: 0 0 0 15px;}
-.package-content ul{ list-style: none;}
-.content1 { margin: 15px 0 0 0;}
-.content2 { margin: 15px 0 0 0; min-height: 600px;}
-
-
-.alphabet{ font-size: 10px;border-bottom: 1px solid #ccc;}
-.alphabet li{ text-align: center;  width: 5%; display: inline-block;padding: 3px 0px 1px 3px;line-height: 12px; border: 1px solid #fff;}
-.alphabet span{ font-size: 9px; color:#0C0; margin-left: 2px;}
-.alphabet a{ font-size: 12px; text-decoration: none; color:#000; font-weight: bold;}
-.alphabet a:hover { text-decoration: none;}
-.alphabet li:hover { cursor: pointer;background: #ccc;}
-.alphabet li:hover a{ color: #fb6c1b;}
-
-.tool-bar{ height: 38px; background:#e7f1fd; vertical-align: middle;}
-.tool-bar li{ display: inline-block; height:25px; margin: 5px 0; border-top: 1px #ccc solid; border-bottom: 1px #ccc solid; text-align: center;  line-height: 25px;background:-moz-linear-gradient(center top , #FFFFFF, #FFFFFF 25%, #e6e6e6);color: #666;
-background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#fff), to(#fff), color-stop(0.99,#e6e6e6));color: #666; width: 60px;}
-li.first{ margin-left:5px; border-left: 1px solid #ccc; border-top-left-radius: 4px;border-bottom-left-radius: 4px;}
-.tool-bar input[type="text"]{ width: 130px;}
-.tool-bar span{ cursor: pointer;}
-
-
-li.last1 { border-right: none;}
-li.last2 { border-right: 1px solid #ccc; margin-right: -4px;}
-li.border-radius{ -moz-border-right-radius:4px;border-bottom-right-radius:4px;border-top-right-radius:4px;}
-li.last3 { border: none; margin:5px; float:right; background: none; width: 250px;}
-li select { width: 100px; margin-right: 5px;}
-li.last2:hover,li.first:hover { background: -moz-linear-gradient(center top , #eee, #efefef 50%, #cfcfcf);background:-webkit-gradient(linear,0% 0%, 0% 100%, from(#eee), to(#cfcfcf), color-stop(0.99,#efefef)); }
-
-/*Table*/
-.table td, .table th{ vertical-align: middle;color: #000;}
-.table th{ background:#eaeaea; border-top:1px solid #ddd;}
-.table td:hover .tool-panel{ display: block;}
-.tr-even{ background-color: #f5f5f5;}
-.change-tr{ background-color: #fbf7e3;}
-tr.last{ border-bottom: 1px solid #ddd}
-.table1 td.pass{ width:50px; background: url(../images/pass-icon.png) 15px 3px  no-repeat;}
-.table a:hover { text-decoration: none;}
-.table .last{ border-bottom: 1px solid #ddd; }
-
-.table2 {width: 100%; }
-.table2 td{ border: none; text-align: left; height: 30px;}
-.td-title{ font-weight:bold}
-.table2 .row{ text-align: right; font-weight:normal; }
-.table3 { width: 500px;}
-.table3 td{ border:none; text-align: left;margin: 10px; padding: 10px 6px 10px 0 ;}
-.table3 select[multiple]{ width:200px; height: 100px; margin:  0 20px 20px 0;}
-.table3 select{ width: 220px;}
-.table3 td img{ margin-left: 3px;}
-.table3 input{ width:300px; color:#333}
-.table3 textarea{ width:300px; color:#333}
-.table3 select{ width:310px; color:#333}
-.title-container{ border-bottom: 1px #ccc dotted; height:50px; line-height:50px; margin-bottom:10px;}
-
-.tool-panel{float: left; border: 1px #aaa solid; background: #ddd; display: none; position: absolute;}
-.tool-panel li{ list-style: none; padding: 5px; float: left;}
-.tool-panel li:hover { background:#aaa;}
-
-
-ul, ol{ margin: 0;}
-label, input, textarea{ width:auto}
-
-ul.errorlist{ color:red;list-style-type:none}
-ul.errorlist li{ list-style-type:none; color:red}
-
-button{ background:none}
-.pagination{ display: inline-block; float: right; margin: 9px 18px 0px 0;}
-.step-links{ display: block}
-
-.last2 button{ margin: 4px 0 0 0}
-
-ul.help li{ list-style: none; color: #333; margin: 5px 0;}
-
 /*customize css from Weitao Zhou <zhouwtlord@gmail.com>*/
+/*table*/
+.table1 textarea{width: 350px; height: 80px}
+.table1 td{text-align: left}
+.table1 th{text-align: left}
+
 label{
 	font-weight: bold;
 }
+ul li {display: inline;}
 div.tag-cloud {color:red;}
 div.tag-cloud:hover {background:yellow;}
-input[readonly="readonly"]{
-	background-color: lightgray;
-}
-.hidden {
-	display: none;
-}
+input[readonly="readonly"]{background-color: lightgray;}
+.hidden { display: none;}
+textarea {width: 350px; height:110px}
